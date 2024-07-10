@@ -56,7 +56,7 @@ const average = (arr) =>
 export default function App() {
   
   const [movies, setMovies] = useState(tempMovieData);
-
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -70,7 +70,11 @@ export default function App() {
         <List>
           <MovieList movies={movies}/>
         </List>
-        <Watched/>
+
+        <List>
+            <WatchedSummary watched={watched}/>
+            <WatchedMovieList watched={watched}/>
+        </List>
       </Main>
     </>
   );
@@ -96,13 +100,7 @@ function Logo(){
 function Search(){
   const [query, setQuery] = useState("");
   return (
-   <input
-            className="search"
-            type="text"
-            placeholder="Search movies..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+   <input className="search" type="text" placeholder="Search movies..." value={query} onChange={(e) => setQuery(e.target.value)}/>
   )
 }
 
@@ -124,20 +122,22 @@ function Main({children}){
   )
 }
 
-function List({children}){
+//////////////// Main Box
 
-const [isOpen1, setIsOpen1] = useState(true);
+function List({children}){
+const [isOpen, setIsOpen1] = useState(true);
 
   return (
      <div className="box">
           <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
-            {isOpen1 ? "–" : "+"}
+            {isOpen ? "–" : "+"}
           </button>
-          {isOpen1 && children}
+          {isOpen && children}
         </div>
   )
 }
 
+/////////////// Left Box
 
 function MovieList ({movies}){
 
@@ -170,36 +170,6 @@ function Movie ({movie}){
 
 ////////////// Right box
 
-
-
-function Watched(){
-
-  
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen2, setIsOpen2] = useState(true);
- 
-  
-
-  return (
-      <div className="box">
-          <button
-            className="btn-toggle"
-            onClick={() => setIsOpen2((open) => !open)}
-          >
-            {isOpen2 ? "–" : "+"}
-          </button>
-          {isOpen2 && 
-            <>
-              <WatchedSummary watched={watched}/>            
-
-              <WatchedMovieList watched={watched} />
-              
-            </>
-          }
-        </div>
-  )
-
-}
 
 function WatchedSummary({watched}){
   
