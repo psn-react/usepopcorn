@@ -60,24 +60,27 @@ export default function App() {
 
   return (
     <>
-      <NavBar movies={movies}/>
-      <Main movies={movies}/>
+      <NavBar>
+          <Logo/>
+          <Search/>
+          <NumberResult movies={movies}/>
+      </NavBar>
+
+      <Main> 
+        <List>
+          <MovieList movies={movies}/>
+        </List>
+        <Watched/>
+      </Main>
     </>
   );
 }
 
 
-function NavBar({movies}){
+function NavBar({children}){
   
   return (
-        <nav className="nav-bar">
-          
-        <Logo/>
-        <Search/>
-        <NumberResult movies={movies}/>
-
-
-      </nav>
+      <nav className="nav-bar">{children}</nav>
   )
 }
 
@@ -114,18 +117,14 @@ function NumberResult({movies}){
 /////////// end of header ////////////
 
 
-function Main({movies}){
+function Main({children}){
 
   return (
-    <main className="main">
-        <List movies={movies}/>
-        <Watched/>
-
-      </main>
+    <main className="main">{children}</main>
   )
 }
 
-function List({movies}){
+function List({children}){
 
 const [isOpen1, setIsOpen1] = useState(true);
 
@@ -134,7 +133,7 @@ const [isOpen1, setIsOpen1] = useState(true);
           <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
             {isOpen1 ? "–" : "+"}
           </button>
-          {isOpen1 && <MovieList movies={movies}/>}
+          {isOpen1 && children}
         </div>
   )
 }
